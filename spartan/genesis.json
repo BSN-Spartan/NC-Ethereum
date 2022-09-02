@@ -1,0 +1,46 @@
+{
+  "config": {
+    "chainId": 9090,
+    "homesteadBlock": 0,
+    "eip150Block": 0,
+    "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "istanbulBlock": 0,
+    "clique": {
+      "period": 10,
+      "epoch": 30000
+    }
+  },
+  "nonce": "0x0",
+  "timestamp": "0x631075c1",
+  "extraData": "0x0000000000000000000000000000000000000000000000000000000000000000e4ca2df8fe3ef576dd3443d21d24a08f3ad19b120000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "gasLimit": "0xf42400",
+  "difficulty": "0x1",
+  "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "coinbase": "0x0000000000000000000000000000000000000000",
+  "alloc": {
+    "1A771c51083C7bB7137DA22E37349C1EA884758d": {
+      "balance": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "951543d7261eEB3Cd31D84e06F241Bb67b4b034A": {
+      "balance": "0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff"
+    },
+    "b370e2122d972d1eA4Fbc0AA1DdFC289ed8ed4B3": {
+      "balance": "0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff"
+    },
+    "62a843bBb80F18BA68FB025c61c8aF6FFEFbD21a": {
+      "balance": "0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff"
+    },
+    "72B03b6f8F78ca95b29C814888527cB1D9C136c7": {
+      "balance": "0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff"
+    }
+  },
+  "number": "0x0",
+  "gasUsed": "0x0",
+  "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "baseFeePerGas": null
+}
