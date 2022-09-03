@@ -4,7 +4,7 @@
 
 A Non-Cryptocurrency Public Chain is a transformed public chain framework based on an existing public chain. Gas Credit transfers are not permitted between standard wallets. There will be no cryptocurrency incentives for mining or participating in consensus.
 
-## 1. About Spartan-III Chain (Powered by NC Ethereum)
+## 1. About Spartan-I Chain (Powered by NC Ethereum)
 
 This document is a guide to install, configure and run an accounting node in the Non-Cryptocurrency (NC ETH) public blockchain. The Non-Cryptocurrency Ethereum blockchain is a blockchain compatible with Ethereum that run independently from the public Ethereum blockchain. Accounting Nodes, can freely join and exit the Spartan Network, synchronize block information of the entire chain, and submit transaction requests to the network.
 
