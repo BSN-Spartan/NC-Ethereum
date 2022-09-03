@@ -55,13 +55,18 @@ Check the installation result
 ```
 go version
 ```
+Before compiling the source code, make sure that `gcc` has been successfully installed. If not, please install `gcc` first.
+
+```
+gcc -v
+```
 
 Compile the source code in `NC-Ethereum` directory:
 
 ```
 cd NC-Ethereum
 make all
-cp -r build/bin/* /usr/local/bin/
+cp -r build/bin/* /usr/bin/
 ```
 #### 2.2 Install by Docker images
 
@@ -82,6 +87,7 @@ Download [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spa
 Copy `genesis.json` to node1 directory and initialize it:
 
 ```shell
+mkdir node1
 cp genesis.json node1/
 geth --datadir node1 init node1/genesis.json
 ```
@@ -110,6 +116,13 @@ geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers
 
 ```
 geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30004 --http --http.addr 0.0.0.0 --http.port 20004 --http.api 'eth,net,web3' --ws --ws.port 8544 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+```
+
+Or you can execute in the background via `nohup`:
+
+To stop the node in `nohup` mode, please refer to the below command:
+```
+pkill -INT geth
 ```
 
 **Important parameters:**
