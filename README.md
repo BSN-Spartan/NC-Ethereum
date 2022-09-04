@@ -33,14 +33,18 @@ wget https://go.dev/dl/go1.18.5.linux-amd64.tar.gz
 tar -C /usr/local -zxvf go1.18.5.linux-amd64.tar.gz
 ```
 
-Modify environment variables, for example in bash
+Modify environment variables, for example in bash:
 
 ```shell
 vim /etc/profile
 
 # insert at the bottom of the file
 export PATH=$PATH:/usr/local/go/bin
+```
 
+Then, make the /etc/profile file take effect after modification
+
+```
 source /etc/profile
 ```
 
