@@ -21,13 +21,7 @@ Below is the instruction for Linux.
 
 #### 2.1 Install by Commands
 
-Download the source code of Spartan NC Ethereum from github:
-
-```
-git clone https://github.com/BSN-Spartan/NC-Ethereum.git
-```
-
-If you want to build the node by commands, Go 1.15 or above should be installed into your server first:
+To build the node by commands, Go 1.15 or above should be installed into your server first:
 
 Install `go` by the following steps:
 
@@ -61,6 +55,12 @@ Before compiling the source code, make sure that `gcc` has been successfully ins
 gcc -v
 ```
 
+Download the source code of Spartan NC Ethereum from github:
+
+```
+git clone https://github.com/BSN-Spartan/NC-Ethereum.git
+```
+
 Compile the source code in `NC-Ethereum` directory:
 
 ```
@@ -80,8 +80,8 @@ docker pull bsnspartan/nc-eth:1.10.17
 
 #### 3.1 Node Initialization
 
-Download [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/genesis.json), 
-[static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json), 
+Download [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/genesis.json),
+[static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json),
 [trusted-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/trusted-nodes.json) to the current folder.
 
 Copy `genesis.json` to node1 directory and initialize it:
