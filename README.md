@@ -2,16 +2,15 @@
 
 ## Introduction
 
-A Non-Cryptocurrency Public Chain is a transformed public chain framework based on an existing public chain. Gas Credit transfers are not permitted between standard wallets. There will be no cryptocurrency incentives for mining or participating in consensus.
+A Non-Cryptocurrency Public Chain is a transformed public chain framework based on an existing public chain. Gas Credit transfers are not permitted between standard wallets. There are no cryptocurrency incentives for mining or participating in consensus. On Spartan Network, there are three Non-Cryptocurrency Public Chains at launch. We except to add more in the forseenable forture. 
 
 ## 1. About Spartan-I Chain (Powered by NC Ethereum)
 
-This document is a guide to install, configure and run a full node in the Non-Cryptocurrency (NC ETH) public blockchain. The Non-Cryptocurrency Ethereum blockchain is a blockchain compatible with Ethereum but runs independently from the public Ethereum blockchain. Full Nodes can freely join and exit the Spartan Network, synchronize block information of the entire chain and submit transaction requests to the network.
+This document is a guide to install, configure and run an full node in the Spartan-I Chain, which is powered by NC Ethereum. The Spartan-I Chain is a blockchain compatible with Ethereum that run independently from the public Ethereum blockchain. Full Nodes, which can freely join and exit the Spartan Network, synchronize block information of the entire chain and submit transaction requests to the network.
 
-A full node of Non-Cryptocurrency Ethereum runs an EVM (Ethereum Virtual Machine) that allows developers to create smart contracts by solidity coding language in the blockchain. Also, different tools and wallets available for Ethereum (such as Truffle, HardHat, Metamask, etc…) can be used in the Non-Crypto Ethereum public blockchain.
+A Spartan-I full node runs an EVM (Ethereum Virtual Machine) that allows developers to use Solidity programming language to create smart contracts that are compatible with the Ethereum network. Also, all the different tools and wallets available for Ethereum (such as Truffle, HardHat, Metamask, etc…) can be directly used with Spartan-I Chain.
 
-Each Ethereum network has two identifiers, a network ID and a chain ID. Although they are often set to the same value, they are used for different purposes. The peer-to-peer communication between nodes uses the network ID, while the transaction signature process uses the chain ID.
-
+Ethereum-based networks have two identifiers, a network ID and a chain ID. Although they often have the same value, they have different uses. Peer-to-peer communication between nodes uses the network ID, while the transaction signature process uses the chain ID.
 NC ETH Network ID = Chain ID  = 9090
 
 Below is the instruction for Linux.
@@ -131,7 +130,7 @@ pkill -INT geth
 
 **Important parameters:**
 
-- `networkid` -- network ID of NC Ethereum
+- `networkid` -- network ID of Spartan-I Chain
 - `datadir` -- the diretory to store data after the node is started
 - `port` -- local port
 - `http.port` -- rpc port, should be different from local port
@@ -162,11 +161,11 @@ The process of creating and configuration new nodes is the same as the one above
 
 ## 5. Generate the Node Signature
 
-When joining the Spartan Network as a VDC, the VDC will be rewarded a certain amount of NTT Incentives based on the quantity of the registered nodes and their health status. To achieve this, the VDC Owner should firstly provide the signature of the VDC node to verify the node's ownership.
+When joining the Spartan Network as a VDCData Center, the VDCData Center Owner will be rewarded a certain amount of NTT Incentives based on the quantity of the registered nodes and their health status.node. To achieve this, the VDC OwnerData Center Operator should firstlyfirst provide the signature of the VDC node to verify the node's ownership.
 
 ### Node installed by Commands:
 
-Execute the following command after the node is started:
+Execute the following command:
 
 ```
 geth validate --datadir node1/
