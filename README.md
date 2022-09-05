@@ -11,7 +11,7 @@ This document is a guide to install, configure and run an full node in the Spart
 A Spartan-I full node runs an EVM (Ethereum Virtual Machine) that allows developers to use Solidity programming language to create smart contracts that are compatible with the Ethereum network. Also, all the different tools and wallets available for Ethereum (such as Truffle, HardHat, Metamask, etc…) can be directly used with Spartan-I Chain.
 
 Ethereum-based networks have two identifiers, a network ID and a chain ID. Although they often have the same value, they have different uses. Peer-to-peer communication between nodes uses the network ID, while the transaction signature process uses the chain ID.
-NC ETH Network ID = Chain ID  = 9090
+Spartan-I Chain Network ID = Chain ID  = 9090
 
 Below is the instruction for Linux.
 
