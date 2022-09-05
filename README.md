@@ -11,6 +11,7 @@ This document is a guide to install, configure and run an full node in the Spart
 A Spartan-I full node runs an EVM (Ethereum Virtual Machine) that allows developers to use Solidity programming language to create smart contracts that are compatible with the Ethereum network. Also, all the different tools and wallets available for Ethereum (such as Truffle, HardHat, Metamask, etc…) can be directly used with Spartan-I Chain.
 
 Ethereum-based networks have two identifiers, a network ID and a chain ID. Although they often have the same value, they have different uses. Peer-to-peer communication between nodes uses the network ID, while the transaction signature process uses the chain ID.
+
 Spartan-I Chain Network ID = Chain ID  = 9090
 
 Below is the instruction for Linux.
@@ -161,7 +162,7 @@ The process of creating and configuration new nodes is the same as the one above
 
 ## 5. Generate the Node Signature
 
-When joining the Spartan Network as a VDCData Center, the VDCData Center Owner will be rewarded a certain amount of NTT Incentives based on the quantity of the registered nodes and their health status.node. To achieve this, the VDC OwnerData Center Operator should firstlyfirst provide the signature of the VDC node to verify the node's ownership.
+When joining the Spartan Network as a Data Center, the Data Center Owner will be rewarded a certain amount of NTT Incentives based on the quantity of the registered node. To achieve this, the Data Center Operator should first provide the signature of the  node to verify the node's ownership.
 
 ### Node installed by Commands:
 
