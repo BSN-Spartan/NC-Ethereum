@@ -114,12 +114,12 @@ Each Data Center only can has one Default Node of Spartan I Chain that interacts
 ##### Start the Default Node by Commands:
 
 ```
-geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30004 --http --http.addr 0.0.0.0 --http.port 20004 --http.api 'eth,net,web3,txpool' --ws --ws.port 8544 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 ##### Start the Regular Full Node by Commands:
 
 ```
-geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30004 --http --http.addr 0.0.0.0 --http.port 20004 --http.api 'eth,net,web3' --ws --ws.port 8544 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 
 Or you can execute in the background via `nohup`:
@@ -131,11 +131,18 @@ pkill -INT geth
 
 **Important parameters:**
 
-- `networkid` -- network ID of Spartan-I Chain
-- `datadir` -- the diretory to store data after the node is started
-- `port` -- local port
-- `http.port` -- rpc port, should be different from local port
-- `http.api` -- pluggable API interface, can be queried by different modules or achieve different functions
+  * `--networkid`network ID of Spartan-I Chain is 9090
+  * `--datadir` the diretory to store data after the node is started
+  * `--http` Enable the HTTP-RPC server
+  * `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
+  * `--http.port` HTTP-RPC server listening port (default: `8545`)
+  * `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
+  * `--ws` Enable the WS-RPC server
+  * `--ws.addr` WS-RPC server listening interface (default: `localhost`)
+  * `--ws.port` WS-RPC server listening port (default: `8546`)
+  * `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
+  * `--ws.origins` Origins from which to accept WebSocket requests
+
 
 Please keep all other parameters unchanged.
 
@@ -144,13 +151,13 @@ Please keep all other parameters unchanged.
 ##### Start the Default Node by Docker:
 
 ```
-docker run -d -p 35004:35004 -p 25004:25004 -p 8554:8554 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 35004 --http --http.addr 0.0.0.0 --http.port 25004 --http.api 'eth,net,web3,txpool' --ws --ws.port 8554 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 
 ##### Start the Regular Full Node by Docker:
 
 ```
-docker run -d -p 35004:35004 -p 25004:25004 -p 8554:8554 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 35004 --http --http.addr 0.0.0.0 --http.port 25004 --http.api 'eth,net,web3' --ws --ws.port 8554 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 
 You can change the port to your own one and remember to run this command where node1 directory is located.
