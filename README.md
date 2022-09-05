@@ -107,7 +107,7 @@ https://geth.ethereum.org/docs/interface/peer-to-peer
 
 #### 3.3 Start the Node
 
-The data center has two types of nodes. One is default node that interacts with the Data Center Management System; the other one is regular full node. The two types of nodes are launched in different ways:
+Each Data Center only can has one Default Node of Spartan I Chain that interacts with the Data Center system; If a second Spartan-I full node is installed, this new full node is considered a regular full node. The two types of nodes launch in different ways. The details are as follows.
 
 #### 3.3.1 Start the Node by Commands
 
