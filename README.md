@@ -107,16 +107,16 @@ https://geth.ethereum.org/docs/interface/peer-to-peer
 
 #### 3.3 Start the Node
 
-The data center has two types of nodes. One is called management node that interacts with the Data Center Management System; the other one is called business node. The two types of nodes are launched in different ways:
+The data center has two types of nodes. One is default node that interacts with the Data Center Management System; the other one is regular full node. The two types of nodes are launched in different ways:
 
 #### 3.3.1 Start the Node by Commands
 
-##### Start the Management Node by Commands:
+##### Start the Default Node by Commands:
 
 ```
 geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30004 --http --http.addr 0.0.0.0 --http.port 20004 --http.api 'eth,net,web3,txpool' --ws --ws.port 8544 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
-##### Start the Business Node by Commands:
+##### Start the Regular Full Node by Commands:
 
 ```
 geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30004 --http --http.addr 0.0.0.0 --http.port 20004 --http.api 'eth,net,web3' --ws --ws.port 8544 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
@@ -141,13 +141,13 @@ Please keep all other parameters unchanged.
 
 #### 3.3.2 Start the Node by Docker
 
-##### Start the Management Node by Docker:
+##### Start the Default Node by Docker:
 
 ```
 docker run -d -p 35004:35004 -p 25004:25004 -p 8554:8554 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 35004 --http --http.addr 0.0.0.0 --http.port 25004 --http.api 'eth,net,web3,txpool' --ws --ws.port 8554 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 
-##### Start the Business Node by Docker:
+##### Start the Regular Full Node by Docker:
 
 ```
 docker run -d -p 35004:35004 -p 25004:25004 -p 8554:8554 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 35004 --http --http.addr 0.0.0.0 --http.port 25004 --http.api 'eth,net,web3' --ws --ws.port 8554 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
