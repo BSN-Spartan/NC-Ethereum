@@ -189,7 +189,7 @@ The process of creating and configuration new nodes is the same as the one above
 
 ## 5. Generate the Node Signature
 
-When joining the Spartan Network as a Data Center, the Data Center Owner will be rewarded a certain amount of NTT Incentives based on the quantity of the registered node. To achieve this, the Data Center Operator should first provide the signature of the  node to verify the node's ownership.
+When joining the Spartan Network as a Data Center, the Data Center Operator will be rewarded a certain amount of NTT Incentives based on the quantity of the registered node. To achieve this, the Data Center Operator should first provide the signature of the  node to verify the node's ownership.
 
 ### Node installed by Commands:
 
