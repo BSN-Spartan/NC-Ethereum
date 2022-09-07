@@ -22,7 +22,7 @@ It is recommended to build Spartan-III Chain full nodes on Linux Server with the
 #### Minimum Requirement
 
 - 2CPU
-- Memory: 2GB
+- Memory: 4GB
 - Disk: 100GB SSD
 - OS: Ubuntu 16.04 LTS +
 - Bandwidth: 20Mbps
@@ -39,7 +39,7 @@ It is recommended to build Spartan-III Chain full nodes on Linux Server with the
 
 ## 3.1. Geth Installation
 
-#### 3.1.1Install by Commands
+#### 3.1.1 Install by Commands
 
 To build the node by commands, Go 1.15 or above should be installed into your server first:
 
