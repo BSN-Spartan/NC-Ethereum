@@ -16,10 +16,30 @@ Spartan-I Chain Network ID = Chain ID  = 9090
 
 Below is the instruction for Linux.
 
+## 2. Hardware Requirement
+It is recommended to build Spartan-III Chain full nodes on Linux Server with the following requirement.
 
-## 2. Geth Installation
+#### Minimum Requirement
 
-#### 2.1 Install by Commands
+- 2CPU
+- Memory: 2GB
+- Disk: 100GB SSD
+- OS: Ubuntu 16.04 LTS +
+- Bandwidth: 20Mbps
+
+#### Recommended Requirement
+
+- 4 CPU
+- Memory: 16GB
+- Disk: 512GB SSD
+- OS: Ubuntu 18.04 LTS +
+- Bandwidth: 20Mbps
+
+## 3. How to Install a Full Node
+
+## 3.1. Geth Installation
+
+#### 3.1.1Install by Commands
 
 To build the node by commands, Go 1.15 or above should be installed into your server first:
 
@@ -72,7 +92,7 @@ cd NC-Ethereum
 make all
 cp -r build/bin/* /usr/bin/
 ```
-#### 2.2 Install by Docker images
+#### 3.1.2 Install by Docker images
 
 If you build the node by Docker, follow the commands below to install geth:
 
@@ -80,9 +100,9 @@ If you build the node by Docker, follow the commands below to install geth:
 docker pull bsnspartan/nc-eth:1.10.17
 ```
 
-## 3. Create a Node
+## 3.2. Create a Node
 
-#### 3.1 Node Initialization
+#### 3.2.1 Node Initialization
 
 Download [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/genesis.json),
 [static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json),
@@ -96,7 +116,7 @@ cp genesis.json node1/
 geth --datadir node1 init node1/genesis.json
 ```
 
-#### 3.2 Configure Node Files
+#### 3.2.2 Configure Node Files
 
 copy `static-nodes.json` and `trusted-nodes.json` to `node1/geth/`:
 ```
@@ -105,11 +125,11 @@ cp static-nodes.json trusted-nodes.json node1/geth/
 For detailed explanation of the two files, please refer to
 https://geth.ethereum.org/docs/interface/peer-to-peer
 
-#### 3.3 Start the Node
+#### 3.2.3 Start the Node
 
 Each Data Center only can has one Default Node of Spartan I Chain that interacts with the Data Center system; If a second Spartan-I full node is installed, this new full node is considered a regular full node. The two types of nodes launch in different ways. The details are as follows.
 
-#### 3.3.1 Start the Node by Commands
+#### 3.2.3.1 Start the Node by Commands
 
 ##### Start the Default Node by Commands:
 
@@ -146,7 +166,7 @@ pkill -INT geth
 
 Please keep all other parameters unchanged.
 
-#### 3.3.2 Start the Node by Docker
+#### 3.2.3.2 Start the Node by Docker
 
 ##### Start the Default Node by Docker:
 
