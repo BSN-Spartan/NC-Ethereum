@@ -17,11 +17,11 @@ Spartan-I Chain Network ID = Chain ID  = 9090
 Below is the instruction for Linux.
 
 ## 2. Hardware Requirement
-It is recommended to build Spartan-III Chain full nodes on Linux Server with the following requirement.
+It is recommended to build Spartan-I Chain full nodes on Linux Server with the following requirement.
 
 #### Minimum Requirement
 
-- 2CPU
+- 2 CPU
 - Memory: 4GB
 - Disk: 100GB SSD
 - OS: Ubuntu 16.04 LTS +
