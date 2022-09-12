@@ -125,15 +125,15 @@ type StateDB struct {
 	AccountDeleted int
 	StorageDeleted int
 
-    Censorship Censorship
+	Censorship Censorship
 }
 
 type Censorship struct {
-    Set bool
-    ContractAddress common.Address
+	Set             bool
+	ContractAddress common.Address
 
-    BlackListMap map[common.Address] bool
-    WhiteListMap map[common.Address] bool
+	BlackListMap map[common.Address]bool
+	WhiteListMap map[common.Address]bool
 }
 
 // New creates a new state from a given trie.
@@ -157,12 +157,12 @@ func New(root common.Hash, db Database, snaps *snapshot.Tree) (*StateDB, error) 
 		hasher:              crypto.NewKeccakState(),
 	}
 
-    if(snaps != nil){
-        sdb.Censorship.ContractAddress = snaps.ContractAddress
-        sdb.Censorship.WhiteListMap = snaps.WhiteListMap
-        sdb.Censorship.BlackListMap = snaps.BlackListMap
-        sdb.Censorship.Set = snaps.ContractAddressSet
-    }
+	if snaps != nil {
+		sdb.Censorship.ContractAddress = snaps.ContractAddress
+		sdb.Censorship.WhiteListMap = snaps.WhiteListMap
+		sdb.Censorship.BlackListMap = snaps.BlackListMap
+		sdb.Censorship.Set = snaps.ContractAddressSet
+	}
 
 	if sdb.snaps != nil {
 		if sdb.snap = sdb.snaps.Snapshot(root); sdb.snap != nil {
@@ -1071,33 +1071,34 @@ var CensorshipContractAddress common.Address
 var CensorshipContractAddressSet bool = false
 
 func (s *StateDB) IsInWhitelist(evm *vm.EVM, addr common.Address) bool {
-    if(CensorshipContractAddressSet){
-        return evm.IsInWhitelist(CensorshipContractAddress, addr)
-    }else{
-        return true;
-    }
+	log.Debug("StateDB check whitelist", "set", CensorshipContractAddressSet, "address", CensorshipContractAddress)
+	if CensorshipContractAddressSet {
+		return evm.IsInWhitelist(CensorshipContractAddress, addr)
+	} else {
+		return true
+	}
 }
 
 func (s *StateDB) IsInBlacklist(evm *vm.EVM, addr common.Address) bool {
-    if(CensorshipContractAddressSet){
-        return evm.IsInBlacklist(CensorshipContractAddress, addr)
-    }else{
-        return false;
-    }
+	if CensorshipContractAddressSet {
+		return evm.IsInBlacklist(CensorshipContractAddress, addr)
+	} else {
+		return false
+	}
 }
 
 func SetCensorshipContractAddress(addr common.Address) {
-    CensorshipContractAddress = addr
-    CensorshipContractAddressSet = true
+	CensorshipContractAddress = addr
+	CensorshipContractAddressSet = true
 }
 
 func (s *StateDB) SetCensorshipContract(addr common.Address) {
-    s.Censorship.ContractAddress = addr
-    s.Censorship.Set = true
+	s.Censorship.ContractAddress = addr
+	s.Censorship.Set = true
 
-    SetCensorshipContractAddress(addr)
+	SetCensorshipContractAddress(addr)
 }
 
 func (s *StateDB) IsCensorshipContract(addr common.Address) bool {
-    return bytes.Equal(addr.Bytes(), CensorshipContractAddress.Bytes())
+	return bytes.Equal(addr.Bytes(), CensorshipContractAddress.Bytes())
 }

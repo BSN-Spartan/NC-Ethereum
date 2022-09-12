@@ -20,6 +20,7 @@ package core
 import (
 	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum/crypto"
 	"io"
 	"math/big"
 	"sort"
@@ -310,6 +311,8 @@ func NewBlockChain(db ethdb.Database, cacheConfig *CacheConfig, chainConfig *par
 		}
 	}
 
+	bc.setCensorshipContractAddress()
+
 	// Ensure that a previous crash in SetHead doesn't leave extra ancients
 	if frozen, err := bc.db.Ancients(); err == nil && frozen > 0 {
 		var (
@@ -418,6 +421,35 @@ func (bc *BlockChain) empty() bool {
 		}
 	}
 	return true
+}
+
+func (bc *BlockChain) setCensorshipContractAddress() {
+
+	if !state.CensorshipContractAddressSet {
+		stateDB, err := bc.State()
+		if err != nil {
+			log.Warn("Set censorship contract address new state DB has err", "err", err.Error())
+			return
+		}
+		adminAddr := bc.vmConfig.CensorshipAdminAddress
+		adminNonce := stateDB.GetNonce(adminAddr)
+		log.Info("Censorship contract address set", "admin address", adminAddr, "nonce", adminNonce)
+		for {
+			censorshipContractAddr := crypto.CreateAddress(adminAddr, adminNonce)
+			code := stateDB.GetCode(censorshipContractAddr)
+			if len(code) > 0 {
+				log.Info("Censorship contract address set", "contract address", censorshipContractAddr, "nonce", adminNonce)
+				stateDB.SetCensorshipContract(censorshipContractAddr)
+				break
+			}
+
+			if adminNonce == 0 {
+				log.Info("Censorship contract not deploy ")
+				return
+			}
+			adminNonce--
+		}
+	}
 }
 
 // loadLastState loads the last known chain state from the database. This method
@@ -1184,13 +1216,14 @@ func (bc *BlockChain) writeKnownBlock(block *types.Block) error {
 }
 
 func (bc *BlockChain) SaveCensorship(state *state.StateDB) {
-    if(state.Censorship.Set){
-        bc.snaps.ContractAddress = state.Censorship.ContractAddress
-        bc.snaps.BlackListMap = state.Censorship.BlackListMap
-        bc.snaps.WhiteListMap = state.Censorship.WhiteListMap
-        bc.snaps.ContractAddressSet = state.Censorship.Set
-    }
+	if state.Censorship.Set {
+		bc.snaps.ContractAddress = state.Censorship.ContractAddress
+		bc.snaps.BlackListMap = state.Censorship.BlackListMap
+		bc.snaps.WhiteListMap = state.Censorship.WhiteListMap
+		bc.snaps.ContractAddressSet = state.Censorship.Set
+	}
 }
+
 // writeBlockWithState writes block, metadata and corresponding state data to the
 // database.
 func (bc *BlockChain) writeBlockWithState(block *types.Block, receipts []*types.Receipt, logs []*types.Log, state *state.StateDB) error {
@@ -1221,7 +1254,7 @@ func (bc *BlockChain) writeBlockWithState(block *types.Block, receipts []*types.
 	}
 	triedb := bc.stateCache.TrieDB()
 
-    bc.SaveCensorship(state)
+	bc.SaveCensorship(state)
 
 	// If we're running an archive node, always flush
 	if bc.cacheConfig.TrieDirtyDisabled {
