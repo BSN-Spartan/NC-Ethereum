@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A Non-Cryptocurrency Public Chain is a transformed public chain framework based on an existing public chain. Gas Credit transfers are not permitted between standard wallets. There are no cryptocurrency incentives for mining or participating in consensus. On Spartan Network, there are three Non-Cryptocurrency Public Chains at launch. We except to add more in the foreseeable future. 
+A Non-Cryptocurrency Public Chain is a transformed public chain framework based on an existing public chain. Gas Credit transfers are not permitted between standard wallets. There are no cryptocurrency incentives for mining or participating in consensus. On Spartan Network, there are three Non-Cryptocurrency Public Chains at launch. We except to add more in the foreseeable future.
 
 ## 1. About Spartan-I Chain (Powered by NC Ethereum)
 
@@ -97,37 +97,86 @@ cp -r build/bin/* /usr/bin/
 If you build the node by Docker, follow the commands below to install geth:
 
 ```
-docker pull bsnspartan/nc-eth:1.10.17
+docker pull bsnspartan/nc-eth:latest
 ```
 
 ## 3.2. Create a Node
 
 #### 3.2.1 Node Initialization
 
-Download [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/genesis.json),
-[static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json),
-[trusted-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/trusted-nodes.json) to the current folder.
+Download [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/genesis.json), [static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json) and [trusted-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/trusted-nodes.json) to the current folder.
 
-Copy `genesis.json` to node1 directory and initialize it:
+Create node1 directory and copy `genesis.json` into it:
 
 ```shell
 mkdir node1
+
 cp genesis.json node1/
+```
+
+The structure is shown as follows:
+```shell
+tree node1
+
+node1
+└── genesis.json
+
+0 directories, 1 file
+```
+
+Initialize `genesis.json` by Commands:
+
+```shell
 geth --datadir node1 init node1/genesis.json
+```
+
+Initialize `genesis.json` by Docker:
+
+```shell
+docker run --rm -it -v $PWD/node1:/node1 bsnspartan/nc-eth:latest --datadir /node1 init /node1/genesis.json
 ```
 
 #### 3.2.2 Configure Node Files
 
-copy `static-nodes.json` and `trusted-nodes.json` to `node1/geth/`:
+Copy `static-nodes.json` and `trusted-nodes.json` to `node1/geth/`:
+
 ```
 cp static-nodes.json trusted-nodes.json node1/geth/
 ```
-For detailed explanation of the two files, please refer to
-https://geth.ethereum.org/docs/interface/peer-to-peer
+> For detailed explanation of the two files, please refer to https://geth.ethereum.org/docs/interface/peer-to-peer
+
+Now, the structure of node1 directory is shown as follows:
+
+```shell
+tree node1
+
+node1
+├── genesis.json
+├── geth
+│   ├── chaindata
+│   │   ├── 000001.log
+│   │   ├── CURRENT
+│   │   ├── LOCK
+│   │   ├── LOG
+│   │   └── MANIFEST-000000
+│   ├── lightchaindata
+│   │   ├── 000001.log
+│   │   ├── CURRENT
+│   │   ├── LOCK
+│   │   ├── LOG
+│   │   └── MANIFEST-000000
+│   ├── LOCK
+│   ├── nodekey
+│   ├── static-nodes.json
+│   └── trusted-nodes.json
+└── keystore
+
+4 directories, 15 files
+```
 
 #### 3.2.3 Start the Node
 
-Each Data Center only can has one Default Node of Spartan I Chain that interacts with the Data Center system; If a second Spartan-I full node is installed, this new full node is considered a regular full node. The two types of nodes launch in different ways. The details are as follows.
+Each Data Center can only have one Default Node of Spartan-I Chain that interacts with the Data Center System; If a second Spartan-I full node is installed, this new full node is considered as a regular full node. The two types of nodes launch in different ways.
 
 #### 3.2.3.1 Start the Node by Commands
 
@@ -151,18 +200,17 @@ pkill -INT geth
 
 **Important parameters:**
 
-  * `--networkid`network ID of Spartan-I Chain is 9090
-  * `--datadir` the diretory to store data after the node is started
-  * `--http` Enable the HTTP-RPC server
-  * `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
-  * `--http.port` HTTP-RPC server listening port (default: `8545`)
-  * `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
-  * `--ws` Enable the WS-RPC server
-  * `--ws.addr` WS-RPC server listening interface (default: `localhost`)
-  * `--ws.port` WS-RPC server listening port (default: `8546`)
-  * `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
-  * `--ws.origins` Origins from which to accept WebSocket requests
-
+* `--networkid` The network ID of Spartan-I Chain is 9090
+* `--datadir` The diretory to store data after the node is started
+* `--http` Enable the HTTP-RPC server
+* `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
+* `--http.port` HTTP-RPC server listening port (default: `8545`)
+* `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
+* `--ws` Enable the WS-RPC server
+* `--ws.addr` WS-RPC server listening interface (default: `localhost`)
+* `--ws.port` WS-RPC server listening port (default: `8546`)
+* `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
+* `--ws.origins` Origins from which to accept WebSocket requests
 
 Please keep all other parameters unchanged.
 
@@ -171,16 +219,16 @@ Please keep all other parameters unchanged.
 ##### Start the Default Node by Docker:
 
 ```
-docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:latest --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 
 ##### Start the Regular Full Node by Docker:
 
 ```
-docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:1.10.17 --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:latest --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 
-You can change the port to your own one and remember to run this command where node1 directory is located.
+You can change the port to your own and remember to run this command where node1 directory is located.
 
 
 ## 4. Add a New Node (Optional)
@@ -189,7 +237,7 @@ The process of creating and configuration new nodes is the same as the one above
 
 ## 5. Generate the Node Signature
 
-When joining the Spartan Network as a Data Center, the Data Center Operator will be rewarded a certain amount of NTT Incentives based on the quantity of the registered node. To achieve this, the Data Center Operator should first provide the signature of the  node to verify the node's ownership.
+When joining the Spartan Network as a Data Center, the Data Center Operator will be rewarded a certain amount of NTT Incentives based on the quantity of the registered node. To achieve this, the Data Center Operator should firstly provide the signature of the node to verify the node's ownership.
 
 ### Node installed by Commands:
 
@@ -205,11 +253,13 @@ datadir is the data directory of the node,you should specify this directory to s
 
 Execute the following command after the node is started:
 
-`docker exec spartan-nc-eth geth validate --datadir node1/`
+```
+docker exec spartan-nc-eth geth validate --datadir /node1
+```
 
 ### **Node Signature**
 
-After executing the above commands, you will get the following information. You can fill it in the Data Center Management System when registering the node.
+After executing the above commands, you will get the following information. You can fill it in the Data Center System when registering the node.
 
 ```shell
 {
@@ -222,7 +272,7 @@ After executing the above commands, you will get the following information. You 
 
 ## 6.  Ethereum and Geth Documentation
 
-Below is a list of useful online documentation about Ethereum and geth:
+Below is a list of useful online documentation about Ethereum and Geth:
 
 How to set up Geth and execute some basic tasks using the command line tools:
 
