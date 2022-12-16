@@ -14,7 +14,7 @@ A Spartan-I full node runs an EVM (Ethereum Virtual Machine) that allows develop
 
 Ethereum-based networks have two identifiers, a network ID and a chain ID. Although they often have the same value, they have different uses. Peer-to-peer communication between nodes uses the network ID, while the transaction signature process uses the chain ID.
 
-Spartan-I Chain Network ID = **Chain ID**  = 9090
+Spartan-I Chain Network ID = **Chain ID  = 9090**
 
 Below is the instruction for Linux system.
 
