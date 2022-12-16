@@ -14,7 +14,7 @@ A Spartan-I full node runs an EVM (Ethereum Virtual Machine) that allows develop
 
 Ethereum-based networks have two identifiers, a network ID and a chain ID. Although they often have the same value, they have different uses. Peer-to-peer communication between nodes uses the network ID, while the transaction signature process uses the chain ID.
 
-Spartan-I Chain Network ID = Chain ID  = 9090
+Spartan-I Chain Network ID = **Chain ID**  = 9090
 
 Below is the instruction for Linux system.
 
@@ -228,6 +228,21 @@ Each Data Center can only have one Default Node of Spartan-I Chain that interact
 ```
 geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
+**Important Parameters:**
+
+* `--networkid` The network ID of Spartan-I Chain is 9090
+* `--datadir` The diretory to store data after the node is started
+* `--http` Enable the HTTP-RPC server
+* `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
+* `--http.port` HTTP-RPC server listening port (default: `8545`)
+* `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
+* `--ws` Enable the WS-RPC server
+* `--ws.addr` WS-RPC server listening interface (default: `localhost`)
+* `--ws.port` WS-RPC server listening port (default: `8546`)
+* `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
+* `--ws.origins` Origins from which to accept WebSocket requests
+
+Please keep all other parameters unchanged.
 
 After the node has been started, it will synchronize all blocks from Spartan-I Chain. This process will take time, and you can check it by the block number:
 
@@ -257,22 +272,6 @@ pkill -INT geth
 ```
 geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30002 --http --http.addr 0.0.0.0 --http.port 8547 --http.api 'eth,net,web3' --ws --ws.port 8548 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
-
-**Important Parameters:**
-
-* `--networkid` The network ID of Spartan-I Chain is 9090
-* `--datadir` The diretory to store data after the node is started
-* `--http` Enable the HTTP-RPC server
-* `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
-* `--http.port` HTTP-RPC server listening port (default: `8545`)
-* `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
-* `--ws` Enable the WS-RPC server
-* `--ws.addr` WS-RPC server listening interface (default: `localhost`)
-* `--ws.port` WS-RPC server listening port (default: `8546`)
-* `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
-* `--ws.origins` Origins from which to accept WebSocket requests
-
-Please keep all other parameters unchanged.
 
 #### 3.2.3.2 Starting the Node by Docker
 
@@ -330,7 +329,7 @@ After executing the above commands, you will get the following information. You 
 
 ```
 
-## 6.  Ethereum and Geth Documentation
+## 6.  Resources
 
 Below is a list of useful online documentation about Ethereum and Geth:
 
