@@ -260,14 +260,6 @@ tail -f output.log
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/9.nohuplog.jpg)
 
 
-If you need to open the access port of the node to the Internet, you can use the following command to configure the firewall and open the port. However, it is highly recommended that you use the [Data Center Gateway](https://github.com/BSN-Spartan/Data-Center-Gateway) to open your nodes.
-
-```
-firewall-cmd --permanent --add-port=8545/tcp 
-firewall-cmd --permanent --add-port=8546/tcp
-firewall-cmd --reload
-```
-
 ## 4 Installing Nodes by Docker Images
 
 ### 4.1 Prerequisites
