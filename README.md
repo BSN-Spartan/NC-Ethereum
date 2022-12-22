@@ -35,15 +35,25 @@ It is recommended to build Spartan-I Chain full nodes with the following require
 - Disk: 512GB SSD
 - Bandwidth: 20Mbps
 
-## 3. Full Node Installation
 
-## 3.1. Geth Installation
 
-There are 2 methods to install Geth: building from source and installing by Docker. Please refer to the installation method that is most applicable in your specific case.
 
-#### 3.1.1 Building from Source
+## 3. Installing Nodes by Commands
 
-To build the node by commands, **Go 1.15** or above should be installed into your server first. Install `go` by following steps:
+In this chapter, we will build a node by commands. If you prefer to build the node by Docker Images, please go to chapter 4 Installing Nodes by Docker.
+
+## 3.1 Prerequisites
+
+Before building the nodes of Spartan-I Chain, software below should be installed in your system:
+
+| Software  | Version  |
+| ----- | ----- | 
+| Golang | 1.15+ |
+| GCC | latest |
+| Git | 1.8.3.1+ |
+| tree (optional) | 1.6.0 |
+
+### 3.1.1 Installing Golang
 
 Download and untar the installation file
 
@@ -79,7 +89,16 @@ go version
 
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/1.go_version.png)
 
-Also, make sure that `gcc` has been successfully installed. Check by the following command:
+
+### 3.1.2 Installing GCC
+
+Install `gcc` by the system command
+
+```
+yum install gcc
+```
+
+Check the version
 
 ```
 gcc -v
@@ -87,7 +106,28 @@ gcc -v
 
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/2.%20gcc.jpg)
 
-Download the source code of Spartan NC Ethereum from github (`git` has been installed):
+
+
+### 3.1.3 Installing Git
+
+Install `gcc` by the system command
+
+```
+yum install git
+```
+
+Check the version
+
+```
+git version
+```
+
+![git](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/.github/images/git_version.jpg)
+
+
+## 3.2 Geth Installation
+
+Download the source code of Spartan NC Ethereum from github:
 
 ```
 git clone https://github.com/BSN-Spartan/NC-Ethereum.git
@@ -103,45 +143,10 @@ make all
 cp -r build/bin/* /usr/bin/
 ```
 
-#### 3.1.2 Installing by Docker Images
 
-If you build the node by Docker, Docker 18 or later version should be installed in your server first:
+## 3.3 Creating a Node
 
-```shell
-wget -qO- https://get.docker.com/ | sh
-```
-
-Grant your user permission to execute Docker commands:
-
-```shell
-sudo usermod -aG docker your-user
-```
-
-Now, check the docker version:
-
-```
-docker version
-```
-
-![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/4.1dockerversion.jpg)
-
-Start docker:
-
-```shell
-systemctl start docker
-```
-
-Follow the commands below to install geth:
-
-```
-docker pull bsnspartan/nc-eth:latest
-```
-
-![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/4.docker.jpg)
-
-## 3.2. Creating a Node
-
-#### 3.2.1 Node Initialization
+### 3.3.1 Node Initialization
 
 Create a new directory `node1/`:
 
@@ -164,7 +169,7 @@ node1
 0 directories, 1 file
 ```
 
-**Initialize `genesis.json` by command:**
+Initialize `genesis.json`
 
 ```shell
 geth --datadir node1 init node1/genesis.json
@@ -172,15 +177,6 @@ geth --datadir node1 init node1/genesis.json
 
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/6.initgenesis.jpg)
 
-**Initialize `genesis.json` by Docker:**
-
-```shell
-docker run --rm -it -v $PWD/node1:/node1 bsnspartan/nc-eth:latest --datadir /node1 init /node1/genesis.json
-```
-
-![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/6.initgenesisdocker.jpg)
-
-#### 3.2.2 Node Files Configuration
 
 Copy [static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json) and [trusted-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/trusted-nodes.json) files from `spartan/` directory to `node1/geth/` directory:
 
@@ -217,16 +213,15 @@ node1
 4 directories, 15 files
 ```
 
-#### 3.2.3 Starting the Node
+### 3.3.2 Starting the Node
+There are two kinds of full nodes in Spartan-I Chain: Default Node and Regular Node. 
+**Default Node:** A full node that has administration functions. The first node that Data Center Operators build in Spartan-I Chain must be a default node, and it should be running before starting the Data Center Management System. 
+**Regular Node:** A full node that has regular functions only, which synchronizes all data on the chain.
 
-Each Data Center can only have one Default Node of Spartan-I Chain that interacts with the Data Center System. If a second Spartan-I full node is installed, this node then is called a regular full node. The two types of nodes launch in different ways.
-
-#### 3.2.3.1 Starting the Node by Commands
-
-##### Starting the Default Node:
+Below is the command to start the default node:
 
 ```
-geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool,admin' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
 ```
 **Important Parameters:**
 
@@ -234,7 +229,7 @@ geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers
 * `--datadir` The diretory to store data after the node is started
 * `--http` Enable the HTTP-RPC server
 * `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
-* `--http.port` HTTP-RPC server listening port (default: `8545`)
+* `--http.port` HTTP-RPC server listening port, will be used by Data Center Management System setup and for node registration (default: `8545`)
 * `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
 * `--ws` Enable the WS-RPC server
 * `--ws.addr` WS-RPC server listening interface (default: `localhost`)
@@ -242,13 +237,15 @@ geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers
 * `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
 * `--ws.origins` Origins from which to accept WebSocket requests
 
+
+
 Please keep all other parameters unchanged.
 
 After the node has been started, it will synchronize all blocks from Spartan-I Chain. This process will take time, and you can check it by the block number:
 
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/8.startnode.jpg)
 
-Or you can run the node in background by `nohup` command:
+If you would like to run the node in the backend system， you can run `nohup` command as follow:
 
 ```
 nohup geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6 > output.log 2>&1 &
@@ -262,43 +259,133 @@ tail -f output.log
 
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/9.nohuplog.jpg)
 
-To stop the node in `nohup` mode, please refer to the below command:
-```
-pkill -INT geth
-```
 
-##### Starting a Regular Full Node:
+If you need to open the access port of the node to the Internet, you can use the following command to configure the firewall and open the port. However, it is highly recommended that you use the [Data Center Gateway](https://github.com/BSN-Spartan/Data-Center-Gateway) to open your nodes.
 
 ```
-geth --networkid 9090 --datadir node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30002 --http --http.addr 0.0.0.0 --http.port 8547 --http.api 'eth,net,web3' --ws --ws.port 8548 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+firewall-cmd --permanent --add-port=8545/tcp 
+firewall-cmd --permanent --add-port=8546/tcp
+firewall-cmd --reload
 ```
 
-#### 3.2.3.2 Starting the Node by Docker
+## 4 Installing Nodes by Docker Images
 
-##### Starting the Default Node:
+### 4.1 Prerequisites
+
+
+| Software  | Version  |
+| ----- | ----- | 
+| docker-ce | 20.10.0+ |
+
+Install the docker in your server:
+
+```shell
+wget -qO- https://get.docker.com/ | sh
+```
+
+Grant your user permission to execute Docker commands:
+
+```shell
+sudo usermod -aG docker your-user
+```
+
+Now, check the docker version:
 
 ```
-docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:latest --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+docker version
 ```
 
-##### Starting a Regular Full Node:
+![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/4.1dockerversion.jpg)
+
+Start the docker:
+
+```shell
+systemctl start docker
+```
+
+### 4.2 Geth Installation
+
+Follow command below to install geth:
 
 ```
-docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:latest --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+docker pull bsnspartan/nc-eth:latest
 ```
 
-You can change the port to your own and remember to run this command where node1 directory is located.
+![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/4.docker.jpg)
 
 
-## 4. Adding a New Node (Optional)
 
-The process of adding new nodes to Spartan-I Chain is the same as building the regular full node above, including initializing the node, configuring the node files, and finally starting the node.
+### 4.3. Node Initialization
 
-## 5. Generating the Node Signature
+Initialize `genesis.json`
+
+```shell
+docker run --rm -it -v $PWD/node1:/node1 bsnspartan/nc-eth:latest --datadir /node1 init /node1/genesis.json
+```
+
+![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/6.initgenesisdocker.jpg)
+
+
+
+
+### 4.4 Starting the Node
+
+There are two kinds of full nodes in Spartan-I Chain: Default Node and Regular Node. 
+**Default Node:** A full node that has administration functions. The first node that Data Center Operators build in Spartan-I Chain must be a default node, and it should be running before starting the Data Center Management System. 
+**Regular Node:** A full node that has regular functions only, which synchronizes all data on the chain.
+
+Below is the command to start the default node:
+
+```
+docker run -d -p 30001:30001 -p 8545:8545 -p 8546:8546 -v $PWD/node1:/node1 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:latest --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30001 --http --http.addr 0.0.0.0 --http.port 8545 --http.api 'eth,net,web3,txpool,admin' --ws --ws.port 8546 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+```
+
+**Important Parameters:**
+
+* `--networkid` The network ID of Spartan-I Chain is 9090
+* `--datadir` The diretory to store data after the node is started
+* `--http` Enable the HTTP-RPC server
+* `--http.addr` HTTP-RPC server listening interface (default: `localhost`)
+* `--http.port` HTTP-RPC server listening port, will be used by Data Center Management System setup and for node registration (default: `8545`)
+* `--http.api` API's offered over the HTTP-RPC interface (default: `eth,net,web3`)
+* `--ws` Enable the WS-RPC server
+* `--ws.addr` WS-RPC server listening interface (default: `localhost`)
+* `--ws.port` WS-RPC server listening port (default: `8546`)
+* `--ws.api` API's offered over the WS-RPC interface (default: `eth,net,web3`)
+* `--ws.origins` Origins from which to accept WebSocket requests
+
+Please keep all other parameters unchanged.
+
+
+## 5. Adding a New Node (Optional)
+
+Each Data Center can only have one Default Node of Spartan-I Chain that interacts with the Data Center System. If a second Spartan-I full node is installed, this node then is called a regular node. The two types of nodes launch in different ways.
+
+The process of adding new nodes to Spartan-I Chain is the same as building the node above, including initializing the node, configuring the node files, and finally starting the node. 
+
+You can start the regular node in either way.
+
+### 5.1 Starting a Regular Node by Commands:
+
+Build a new directory ```node2``` and follow the steps in chapter 3 to configure the node, then start the node with command below:
+
+```
+geth --networkid 9090 --datadir node2/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30002 --http --http.addr 0.0.0.0 --http.port 8547 --http.api 'eth,net,web3' --ws --ws.port 8548 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+```
+
+### 5.2 Starting a Regular Node by Docker:
+
+Follow the steps in chapter 4 to configure the node and remember to use new directory and ports, then run command below to start the node:
+
+```
+docker run -d -p 30002:30002 -p 8547:8547 -p 8548:8548 -v $PWD/node2:/node2 --restart=always --name spartan-nc-eth bsnspartan/nc-eth:latest --networkid 9090 --datadir /node1/ --syncmode 'full' --nodiscover --maxpeers 300 --verbosity 6 --ipcdisable --port 30002 --http --http.addr 0.0.0.0 --http.port 8547 --http.api 'eth,net,web3' --ws --ws.port 8548 --ws.addr 0.0.0.0 --ws.api 'eth,net,web3' --ws.origins '*' --allow-insecure-unlock --censorship.admin.address 0x94109ebFB3d4153a266e7AC08E8C6F868360DEE6
+```
+
+## 6. Generating the Node Signature
 
 When joining the Spartan Network as a Data Center, the Data Center Operator will be rewarded a certain amount of NTT Incentives based on the quantity of the registered node. To achieve this, the Data Center Operator should firstly provide the signature of the node to verify the node's ownership.
 
-#### Node installed by Commands:
+### 6.1  Generating by Commands
 
 Execute the following command after the node has been started:
 
@@ -308,7 +395,7 @@ geth validate --datadir node1/
 
 `datadir` is the directory that stores the data of the node.
 
-#### Node Installed by Docker
+### 6.2 Generating by Docker
 
 Execute the following command after the node has been started:
 
@@ -316,9 +403,10 @@ Execute the following command after the node has been started:
 docker exec spartan-nc-eth geth validate --datadir node1/
 ```
 
-### Node Signature
+### 6.3 Node Signature
 
-After executing the above commands, you will get the following information. You can fill it in the Data Center System when registering the node.
+After executing the above commands, you will get the following information. 
+
 
 ```shell
 {
@@ -329,7 +417,41 @@ After executing the above commands, you will get the following information. You 
 
 ```
 
-## 6.  Resources
+Next step, you need to [build the Data Center Management System](https://github.com/BSN-Spartan/Data-Center-System/blob/main/README.md) and fill in the signature information when registering the node.
+
+
+## 7. Deleting the Node
+
+You can use the following command to stop the running node and delete it, and also clear the node data by deleting the `datadir` directory.
+
+If the node has been registered in the Data Center, you can back up the `nodekey` file before deleting it, so that you can recover this registered node when needed.
+
+### 7.1 Ceasing the Node started by Commands
+
+Use the following command to stop the running node:
+```
+pkill -INT geth
+```
+
+### 7.2 Ceasing the Node started by Docker
+
+Use the following command to stop the running container and delete the container and the image file:
+
+```
+docker stop spartan-nc-eth
+docker rm spartan-nc-eth
+docker rmi bsnspartan/nc-eth:latest
+```
+
+### 7.3 Deleting Node Data
+
+If you need to completely delete all data of the node, you can use the following command to delete the `datadir` directory.
+
+```
+rm -rf node1/
+```
+
+## 8.  Resources
 
 Below is a list of useful online documentation about Ethereum and Geth:
 
