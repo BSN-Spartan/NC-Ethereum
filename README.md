@@ -307,7 +307,28 @@ docker pull bsnspartan/nc-eth:latest
 
 
 
-### 4.3. Node Initialization
+### 4.3 Node Initialization
+
+Create a new directory `node1/`:
+
+```
+mkdir node1
+```
+
+Copy [genesis.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/genesis.json) file from `spartan/` directory to `node1/` directory:
+
+```
+cp ./spartan/genesis.json node1/
+```
+
+The structure is shown as follows (viewed by `tree node1` command):
+
+```shell
+node1
+└── genesis.json
+
+0 directories, 1 file
+```
 
 Initialize `genesis.json`
 
@@ -317,6 +338,41 @@ docker run --rm -it -v $PWD/node1:/node1 bsnspartan/nc-eth:latest --datadir /nod
 
 ![](https://raw.githubusercontent.com/BSN-Spartan/NC-Ethereum/main/.github/images/6.initgenesisdocker.jpg)
 
+Copy [static-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/static-nodes.json) and [trusted-nodes.json](https://github.com/BSN-Spartan/NC-Ethereum/blob/main/spartan/trusted-nodes.json) files from `spartan/` directory to `node1/geth/` directory:
+
+```
+cp ./spartan/static-nodes.json ./spartan/trusted-nodes.json node1/geth/
+```
+
+> For detailed explanation of the two files, please refer to
+> https://geth.ethereum.org/docs/interface/peer-to-peer
+
+Now, the structure of `node1/` directory is like below:
+
+```shell
+node1
+├── genesis.json
+├── geth
+│   ├── chaindata
+│   │   ├── 000001.log
+│   │   ├── CURRENT
+│   │   ├── LOCK
+│   │   ├── LOG
+│   │   └── MANIFEST-000000
+│   ├── lightchaindata
+│   │   ├── 000001.log
+│   │   ├── CURRENT
+│   │   ├── LOCK
+│   │   ├── LOG
+│   │   └── MANIFEST-000000
+│   ├── LOCK
+│   ├── nodekey
+│   ├── static-nodes.json
+│   └── trusted-nodes.json
+└── keystore
+
+4 directories, 15 files
+```
 
 
 
